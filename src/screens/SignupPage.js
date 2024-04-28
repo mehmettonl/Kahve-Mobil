@@ -47,4 +47,8 @@ const styles = StyleSheet.create({
   },
 });
 
+<<<<<<< HEAD
 export default SignupPage;
+=======
+export default SignupPage;
+>>>>>>> d1da78d9f568d57a52b54315d933bfa569fce9a2
