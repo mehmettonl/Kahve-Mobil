@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    width: '80%',
+    width: '85%',
     marginVertical: 10,
     padding: 10,
     borderWidth: 1,
