@@ -1,16 +1,16 @@
 import { StyleSheet, Text, View, ActivityIndicator, Pressable } from 'react-native';
 import React from 'react';
 
-const Loading = (props) => {
+const Loading = ({name, changeIsLoading}) => {
   return (
     <View style={styles.container}>
       <Pressable 
-     onPress={()=> props.changeIsLoading()}
+     onPress={()=> changeIsLoading()}
      style = {[{},styles.closeButtonContainer]}>
-      <Text style ={styles.closeButton}>Hello</Text>
+      <Text style ={styles.closeButton}>Kapat</Text>
       </Pressable>
       <ActivityIndicator size={'large'} color={'white'} />
-      <Text style={styles.loginText}>{props.name}Loading...</Text>
+      <Text style={styles.loginText}>Yükleniyor...</Text>
     </View>
   );
 };
@@ -45,8 +45,9 @@ const styles = StyleSheet.create({
 
   },  
   closeButton: {
-    color:'#7fff00',
+    color:'white',
     fontWeight:'bold',
     fontSize:16,
+    backgroundColor:'black'
   },
 });
