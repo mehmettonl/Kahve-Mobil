@@ -20,5 +20,5 @@ const isAuth = true
   )
 }
 
-export default RootStack;;;
+export default RootStack
 
