@@ -11,7 +11,7 @@ const UserStack = () => {
     <Stack.Navigator
 
     
-    initialRouteName='Ana'
+    initialRouteName='Anaa'
     screenOptions={{headerShown:false}}>
 
     <Stack.Screen name='AnaSayfa' component={AnaSayfa}/>
