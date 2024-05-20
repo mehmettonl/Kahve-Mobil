@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, Pressable, Image } from 'react-native';
 import Loading from '../components/Loading';
-import SignupPage from './SignupPage';
-import AnaSayfa from './AnaSayfa';
-
+import { useNavigation } from '@react-navigation/native';
 
 const LoginPage = () => {
+  const navigation = useNavigation(); // useNavigation hook'u kullanılarak navigation nesnesi alınıyor
   const [email, setEmail] = useState("");
   const [şifre, setŞifre] = useState('');
+  const [result, setResult] = useState('')
   const [isLoading, setIsLoading] = useState(false);
 
   console.log(isLoading);
@@ -17,33 +17,37 @@ const LoginPage = () => {
   };
 
   const handleSignup = () => {
-    
+    navigation.navigate('Signup');
   };
 
   return (
     <View style={styles.container}>
       
+      <View style={styles.inputContainer}>
+        <Text style={styles.hoşgeldinizText}>Hoşgeldiniz {email}</Text>
+        <Text style={styles.inputBoxText}>Email</Text>
+        <TextInput
+          inputMode='email'
+          placeholder='Email adresinizi giriniz'
+          style={styles.textInputStyle}
+          onChangeText={setEmail}
+          value={email}
+        />
+      </View>
       
-      <Text style={styles.headerText}>Hoşgeldiniz {email}</Text>
-      <Text style={styles.whiteText}>Email</Text>
-      <TextInput
-        imputMode='email'
-        placeholder='Email adresinizi giriniz'
-        style={styles.textInputStyle}
-        onChangeText={setEmail}
-      />
-
-      <Text style={styles.whiteText}>Şifre</Text>
-      <TextInput
-        secureTextEntry={true}
-        placeholder='Şifrenizi giriniz'
-        style={styles.textInputStyle}
-        onChangeText={setŞifre}
-      />
-
+      <View style={styles.inputContainer}>   
+        <Text style={styles.inputBoxText}>Şifre</Text>
+        <TextInput
+          secureTextEntry={true}
+          placeholder='Şifrenizi giriniz'
+          style={styles.textInputStyle}
+          onChangeText={setŞifre}
+        />
+      </View>
+      
       <Pressable
         onPress={handleLogin}
-        style={({pressed}) => [{
+        style={({ pressed }) => [{
           backgroundColor: pressed ? 'gray' : '#7fff00'
         }, styles.button]}
       >
@@ -52,9 +56,9 @@ const LoginPage = () => {
 
       <Pressable
         onPress={handleSignup}
-        style={({pressed}) => [{
+        style={({ pressed }) => [{
           backgroundColor: pressed ? 'gray' : '#7fff00',
-          marginTop:15,
+          marginTop: 15,
         }, styles.kayıtOlButton]}
       >
         <Text style={styles.buttonText}>Kayıt Ol</Text>
@@ -85,9 +89,14 @@ const styles = StyleSheet.create({
     color: 'white', 
     marginBottom: 50,
   },
+  inputContainer: {
+    width: '100%', 
+    borderColor: 'white',  
+    alignItems: 'center', 
+  },
   textInputStyle: {
+    borderBottomWidth: 0.5,
     backgroundColor: 'white',
-    borderWidth: 1,
     width: '80%',
     height: 50,
     borderRadius: 20,
@@ -104,7 +113,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 5,
-    
   },
   buttonText: {
     fontWeight: 'bold',
@@ -116,14 +124,22 @@ const styles = StyleSheet.create({
     height: 200,
     resizeMode: 'stretch',
   },
-  whiteText: {
+  inputBoxText: {
     color: 'white',
     fontWeight: 'bold',
-    alignSelf:'flex-start',
-    marginBottom: 5,
+    alignSelf: 'flex-start',
+    marginLeft: '10%',
+    marginBottom: 2,
     fontSize: 20, 
   },
-  kayıtOlButton:{
+  hoşgeldinizText: {
+    color: 'white',
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    marginBottom: 50, // Added marginBottom to control the distance
+    fontSize: 30, 
+  },
+  kayıtOlButton: {
     borderWidth: 1,
     width: '40%',
     height: 50,
@@ -131,6 +147,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 5,
-
   }
 });
