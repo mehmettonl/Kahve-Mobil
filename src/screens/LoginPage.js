@@ -1,71 +1,70 @@
+import { 
+  StyleSheet,
+  Text,
+  View,
+  Image } from 'react-native';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Pressable, Image } from 'react-native';
-import Loading from '../components/Loading';
+import { Loading, CustomTextInput, CustomButton } from '../components';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsLoading, } from '../../redux/userSlice';
+import { login } from '../../redux/userSlice';
 
-const LoginPage = () => {
-  const navigation = useNavigation(); // useNavigation hook'u kullanılarak navigation nesnesi alınıyor
-  const [email, setEmail] = useState("");
-  const [şifre, setŞifre] = useState('');
-  const [result, setResult] = useState('')
-  const [isLoading, setIsLoading] = useState(false);
+const LoginPage = ({}) => {
+  const [email, setEmail] = useState('');
+  const [sifre, setSifre] = useState('');
+  
+  const navigation = useNavigation();
+  
+  // user Slice içindeki verilerin okunması
+  const { isLoading } = useSelector((state) => state.user);
 
-  console.log(isLoading);
-
-  const handleLogin = () => {
-    setIsLoading(true);
-  };
-
+  // user Slice içindeki reducer yapılarını kullanma veya veri gönderme
+  const dispatch = useDispatch();
+  
   const handleSignup = () => {
     navigation.navigate('Signup');
   };
 
   return (
     <View style={styles.container}>
+      <Text style={styles.welcome}>Welcome</Text>
       
-      <View style={styles.inputContainer}>
-        <Text style={styles.hoşgeldinizText}>Hoşgeldiniz {email}</Text>
-        <Text style={styles.inputBoxText}>Email</Text>
-        <TextInput
-          inputMode='email'
-          placeholder='Email adresinizi giriniz'
-          style={styles.textInputStyle}
-          onChangeText={setEmail}
-          value={email}
-        />
-      </View>
+      <CustomTextInput 
+        title="Email"
+        isSecureText={false}
+        handleOnChangeText={(text) => setEmail(text.toLowerCase())}
+        handleValue={email}
+        handlePlaceholder='Email adresini giriniz'
+      />
       
-      <View style={styles.inputContainer}>   
-        <Text style={styles.inputBoxText}>Şifre</Text>
-        <TextInput
-          secureTextEntry={true}
-          placeholder='Şifrenizi giriniz'
-          style={styles.textInputStyle}
-          onChangeText={setŞifre}
-        />
-      </View>
+      <CustomTextInput 
+        title="Şifre"
+        isSecureText={true}
+        handleOnChangeText={(text) => setSifre(text)}
+        handleValue={sifre}
+        handlePlaceholder='Şifrenizi giriniz'
+      />
+
+      <CustomButton
+        buttonText="Giriş"
+        setWidth="80%"
+        handleOnPress={() => dispatch(login({ email, sifre }))}
+        buttonColor='#7fff00'
+        pressedButtonColor='gray'
+      />
       
-      <Pressable
-        onPress={handleLogin}
-        style={({ pressed }) => [{
-          backgroundColor: pressed ? 'gray' : '#7fff00'
-        }, styles.button]}
-      >
-        <Text style={styles.buttonText}>Giriş</Text>
-      </Pressable>
-
-      <Pressable
-        onPress={handleSignup}
-        style={({ pressed }) => [{
-          backgroundColor: pressed ? 'gray' : '#7fff00',
-          marginTop: 15,
-        }, styles.kayıtOlButton]}
-      >
-        <Text style={styles.buttonText}>Kayıt Ol</Text>
-      </Pressable>
-
-      {isLoading ? <Loading changeIsLoading={() => setIsLoading(false)} /> : null}
-
+      <CustomButton
+        buttonText="Kayıt Ol"
+        setWidth="80%"
+        handleOnPress={handleSignup}
+        buttonColor='#7fff00'
+        pressedButtonColor='gray'
+      />
+      
+      {isLoading ? <Loading 
+      changeIsLoading={() => dispatch(setIsLoading(false))} />
+        : null }
       <Image
         style={styles.stretch}
         source={require('../../assets/image/nav.jpg')}
@@ -94,49 +93,16 @@ const styles = StyleSheet.create({
     borderColor: 'white',  
     alignItems: 'center', 
   },
-  textInputStyle: {
-    borderBottomWidth: 0.5,
-    backgroundColor: 'white',
-    width: '80%',
-    height: 50,
-    borderRadius: 20,
-    marginVertical: 8,
-    textAlign: 'center',
-    color: 'black',
-    fontWeight: 'bold'
-  },
-  button: {
-    borderWidth: 1,
-    width: '80%',
-    height: 50,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 5,
-  },
-  buttonText: {
-    fontWeight: 'bold',
-    color: 'black',
-    fontSize: 22,
-  },
   stretch: {
     width: 200,
     height: 200,
     resizeMode: 'stretch',
   },
-  inputBoxText: {
-    color: 'white',
-    fontWeight: 'bold',
-    alignSelf: 'flex-start',
-    marginLeft: '10%',
-    marginBottom: 2,
-    fontSize: 20, 
-  },
   hoşgeldinizText: {
     color: 'white',
     fontWeight: 'bold',
     alignSelf: 'center',
-    marginBottom: 50, // Added marginBottom to control the distance
+    marginBottom: 50, 
     fontSize: 30, 
   },
   kayıtOlButton: {
@@ -147,5 +113,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 5,
+  },
+  welcome:{
+    fontWeight:'bold',
+    fontSize:30,
+    marginBottom:40,
+    color:'white'
   }
 });

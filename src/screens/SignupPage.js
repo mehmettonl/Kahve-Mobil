@@ -1,101 +1,104 @@
-import { StyleSheet, Text, TextInput, View, Pressable } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState } from "react";
+import { CustomTextInput, CustomButton } from "../components/";
+import { StyleSheet, Text, View, SafeAreaView, Image, Pressable } from "react-native";
 
-const SignupPage = () => {
+const SignupPage = ({ navigation }) => { // navigation nesnesini parametre olarak al
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
-  const handleSignup = () => {
-    // Kayıt olma işlemleri burada yapılacak
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Confirm Password:", confirmPassword);
-  };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.headerText}>Kayıt Ol</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.title}>
+        <Text style={styles.signUp}>Sign Up</Text>
+      </View>
 
-      <TextInput
-        placeholder='Email adresinizi giriniz'
-        style={styles.textInputStyle}
-        onChangeText={setEmail}
-        value={email}
-        keyboardType='email-address'
-        autoCapitalize='none'
-      />
+      <View style={styles.textInputContainer}>
+        <CustomTextInput
+          title="Name"
+          isSecureText={false}
+          handleOnChangeText={setName}
+          handleValue={name}
+          handlePlaceholder={"Enter Your Name"}
+        />
+        <CustomTextInput
+          title="Email"
+          isSecureText={false}
+          handleOnChangeText={setEmail}
+          handleValue={email}
+          handlePlaceholder={"Enter Your Email"}
+        />
+        <CustomTextInput
+          title="Password"
+          isSecureText={true}
+          handleOnChangeText={setPassword}
+          handleValue={password}
+          handlePlaceholder={"Create Your Password"}
+        />
+      </View>
 
-      <TextInput
-        placeholder='Şifrenizi giriniz'
-        style={styles.textInputStyle}
-        onChangeText={setPassword}
-        value={password}
-        secureTextEntry={true}
-      />
+      <View style={styles.signUpOptions}>
+        <CustomButton
+          buttonText="Sign Up"
+          setWidth="80%"
+          buttonColor="#7fff00"
+          pressedButtonColor="gray"
+          borderColor="#7fff00"
+          handleOnPress={() => console.log(name, " ", email, " ", password)}
+        />
 
-      <TextInput
-        placeholder='Şifrenizi tekrar giriniz'
-        style={styles.textInputStyle}
-        onChangeText={setConfirmPassword}
-        value={confirmPassword}
-        secureTextEntry={true}
-      />
+        <Pressable onPress={() => navigation.navigate("Login")}>
+    
+          <Text style={styles.alreadyText}>Already have an account? Login</Text>
+    
+        </Pressable>
+    
+      </View>
+    
+    </SafeAreaView>
+  );
+};
 
-      <Pressable
-        onPress={handleSignup}
-        style={({ pressed }) => [{
-          backgroundColor: pressed ? 'gray' : '#007bff'
-        }, styles.button]}
-      >
-        <Text style={styles.buttonText}>Kayıt Ol</Text>
-      </Pressable>
-    </View>
-  )
-}
-
-export default SignupPage
+export default SignupPage;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "black",
   },
-  headerText: {
+  signUp: {
+    fontWeight: "bold",
     fontSize: 30,
-    fontWeight: 'bold',
-    color: 'black',
     marginBottom: 30,
+    color: "white",
   },
-  textInputStyle: {
-    borderBottomWidth: 0.5,
-    backgroundColor: 'white',
-    width: '100%',
-    height: 50,
-    borderRadius: 10,
-    marginVertical: 10,
-    textAlign: 'center',
-    color: 'black',
-    borderWidth: 1,
-    borderColor: 'gray',
-    paddingHorizontal: 15,
+  title: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginBottom: 10,
   },
-  button: {
-    marginTop: 20,
-    borderWidth: 1,
+  textInputContainer: {
+    flex: 2,
+    paddingVertical: 20,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: 'space-between'
+  },
+  signUpOptions: {
+    flex: 1,
     width: '100%',
-    height: 50,
-    borderRadius: 10,
+    borderWidth: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    borderColor: '#007bff',
+    justifyContent: "center",
+    marginBottom: 220
   },
-  buttonText: {
+  alreadyText: {
     fontWeight: 'bold',
+    textShadowColor: 'white',
     color: 'white',
-    fontSize: 18,
+    marginTop: 90, // Metnin üst kısmında boşluk bırakır
+    fontSize:18
   },
 });
